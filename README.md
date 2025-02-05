@@ -1,1 +1,1 @@
-Created a simple online snake game. 
+Created a simple online snake game. Using Javascript, CSS and HTML.
