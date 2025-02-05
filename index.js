@@ -1,5 +1,3 @@
-//Student number: 000916755
-//Student Name: Abdul Muqeet Ahmed 
 
 
 
