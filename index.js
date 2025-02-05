@@ -1,6 +1,5 @@
 
 
-
 let snake = [{ x: 0, y: 0 }];
 let dx = 1;
 let dy = 0;
@@ -9,9 +8,14 @@ let score = 0;
 let gameInterval;
 let gameRunning = false;
 
-
-
-
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
 function createSnakeBody(x, y) {
     const snakeElement = document.createElementNS("http://www.w3.org/2000/svg", "rect");
@@ -23,12 +27,6 @@ function createSnakeBody(x, y) {
     return snakeElement;
 }
 
-
-
-
-
-
-
 function foodCreated(x, y) {
     const foodElement = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     foodElement.setAttribute("x", x);
@@ -39,10 +37,6 @@ function foodCreated(x, y) {
     return foodElement;
 }
 
-
-
-
-
 function moveSnake() {
     const head = { x: snake[0].x + dx, y: snake[0].y + dy };
     snake.unshift(head);
@@ -50,6 +44,7 @@ function moveSnake() {
     if (head.x === food.x && head.y === food.y) {
         score += 1;
         document.getElementById('score').textContent = "Score: " + score;
+        document.getElementById('score').style.color = getRandomColor();
         makeFood();
     } else {
         snake.pop();
@@ -64,10 +59,6 @@ function moveSnake() {
     updateSnake();
 }
 
-
-
-
-
 function onImpact() {
     const head = snake[0];
     return (
@@ -76,10 +67,6 @@ function onImpact() {
         snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)
     );
 }
-
-
-
-
 
 function updateSnake() {
     const game = document.getElementById("game");
@@ -117,42 +104,5 @@ function startGame() {
         document.addEventListener("keydown", changeDirection);
         gameInterval = setInterval(moveSnake, 100);
         gameRunning = true;
-    }
-}
-
-function restartGame() {
-    clearInterval(gameInterval);
-    snake = [{ x: 10, y: 10 }];
-    dx = 1;
-    dy = 0;
-    food.x = 15;
-    food.y = 15;
-    score = 0;
-    document.getElementById('score').textContent = "Score: " + score;
-    gameRunning = false;
-    updateSnake();
-    startGame();
-}
-
-function addSnakeLength() {
-    snake.push({ x: snake[snake.length - 1].x, y: snake[snake.length - 1].y });
-}
-
-function deleteSnakeLength() {
-    if (snake.length > 1) {
-        snake.pop();
-    }
-}
-
-function addFood() {
-    makeFood();
-    updateSnake();
-}
-
-function removeFood() {
-    const game = document.getElementById("game");
-    const foodElement = game.querySelector(".food");
-    if (foodElement) {
-        game.removeChild(foodElement);
     }
 }
